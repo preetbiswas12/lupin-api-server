@@ -1,18 +1,17 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 
-# Install dependencies
-apt-get update && apt-get install -y build-essential curl
-
-# Clone llama.cpp if not already included
+# Clone llama.cpp if not already there
 if [ ! -d "llama.cpp" ]; then
-  git clone https://github.com/ggerganov/llama.cpp.git
+  git clone https://github.com/ggerganov/llama.cpp
 fi
 
 cd llama.cpp
 
-# Build llama-cli
-make llama-cli
+# Prepare build directory
+mkdir -p build
+cd build
 
-# Copy binary to repo root
-cp ./llama-cli ../llama-cli
+# Configure and build in Release mode, but no subfolder
+cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake --build . -j$(nproc)

@@ -55,7 +55,7 @@ app.post("/v1/chat/completions", (req, res) => {
   }
 
   // Run llama-cli with the prompt
-  exec(`./llama-cli -m "${MODEL_PATH}" -p "${prompt}"`, (err, stdout, stderr) => {
+  exec(`./llama.cpp/build/bin/llama-cli -m "${MODEL_PATH}" -p "${prompt}"`, (err, stdout, stderr) => {
     if (err) {
       console.error("Error running llama-cli:", stderr || err.message);
       return res.status(500).json({ error: "Model execution failed" });
